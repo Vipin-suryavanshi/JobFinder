@@ -1,4 +1,4 @@
-import { now } from "mongoose";
+
 import {CatchAsyncError} from "../middlewares/CatchAsyncError.js";
 import ErrorHandler  from "../middlewares/error.js"
 import {Usermodel} from "../models/UserSchema.js"
@@ -8,8 +8,8 @@ export const Register = CatchAsyncError(async(req,res,next)=>{
      if(!name || !email || !phone || !role || !password){
       return next(new ErrorHandler("All field required mandatory! "));
      }
-      const IsEmail = await Usermodel.findOne({email});
-      if(IsEmail){
+      const isEmail = await Usermodel.findOne({email});
+      if(isEmail){
         return next(new ErrorHandler("Email already Exists"));
       }
       const user = await Usermodel.create({
@@ -46,7 +46,7 @@ export const logout = CatchAsyncError(async function(req,res,next){
     httpOnly:true,
     expires: new Date(Date.now()),
     secure:true,
-    sameSite:"None"
+    sameSite:"None",
    }).json({
     sucess:true,
     message:"User Logged Out Succesfully",

@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken"
 export const isAuthorized  = CatchAsyncError(async(req,res,next)=>{
      const {token} = req.cookies;
      if(!token){
-        return next(new ErrorHandler("user not authorized",400))
+        return next(new ErrorHandler("user not authorized",401))
      }
-     const verify = jwt.verify(token,process.env.JWT_SECRET_KEY)
-     req.user = await Usermodel.findById(verify.id);
+     const value = jwt.verify(token, process.env.JWT_SECRET_KEY)
+     req.user = await Usermodel.findById(value.id);
      next()
 })

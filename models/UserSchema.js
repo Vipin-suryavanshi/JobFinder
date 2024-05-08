@@ -40,12 +40,10 @@ const userSchema = new mongoose.Schema({
 
 //hasing
 userSchema.pre("save", async function(next){
-
-    if(this.isModified("password")){
-        this.password = await bcrypt.hash(this.password,10)
+    if (!this.isModified("password")) {
         next();
-    }
-    
+      }
+      this.password = await bcrypt.hash(this.password, 10);
 })
 
 //compare password
@@ -60,4 +58,4 @@ userSchema.methods.GetJwtToken = function(){
     })
 };
 
-export const Usermodel = mongoose.model("JobAppUsers",userSchema)
+export const Usermodel = mongoose.model("User",userSchema)
