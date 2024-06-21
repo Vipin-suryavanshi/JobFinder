@@ -140,4 +140,3 @@ export const PostApplication = CatchAsyncError(async(req,res,next)=>{
     application
   })
 })
-
