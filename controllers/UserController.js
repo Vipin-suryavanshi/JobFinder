@@ -46,7 +46,8 @@ export const logout = CatchAsyncError(async function(req,res,next){
 httpOnly: true,
     expires: new Date(0), 
     secure: true, 
-    sameSite: "None", 
+    sameSite: "None",
+    path: "/", 
    }).json({
     sucess:true,
     message:"User Logged Out Succesfully",
