@@ -41,17 +41,19 @@ export const login = CatchAsyncError(async(req,res,next)=>{
    sendToken(user,200,res,"User Logged Successfully");
 });
 
-export const logout = CatchAsyncError(async function(req,res,next){
-   res.status(200).cookie("token", "",{
-    httpOnly:true,
-    expires: new Date(Date.now()),
-    // secure:true,
-    // sameSite:"None",
-   }).json({
-    sucess:true,
-    message:"User Logged Out Succesfully",
-   })
-})
+export const logout = CatchAsyncError(async function(req, res, next) {
+  res.clearCookie("token", {
+    expires: new Date(0), 
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+  });
+  res.status(200).json({
+    success: true,
+    message: "User Logged Out Successfully",
+  });
+});
+
 
 export const getUser = CatchAsyncError((req,res,next)=>{
   const user = req.user;
@@ -60,3 +62,38 @@ export const getUser = CatchAsyncError((req,res,next)=>{
     user
   })
 })
+
+
+
+
+
+// export const UserLogout = async (req,res)=>{
+//   try {
+//      const token = req.cookies.token;
+//      const verifytoken =  jwt.verify(token,process.env.JSON_WEB_TOKEN)
+//      console.log(verifytoken);
+//      const user = await UserModel.findOne({_id:verifytoken._id})
+//      if(user){
+//          res.clearCookie("token")
+//         return res.status(200).json(
+//          {
+//              sucess:true,
+//              message:"you are logout sucessfully"
+//          }
+//          )
+//      }
+//   } catch (error) {
+//     return res.status(500).json({
+//          sucess:false,
+//          messa4:"server error"
+//      })
+//   }
+// }
+
+
+// .clearCookie("token", {
+//   expires: new Date(Date.now()),
+//   httpOnly: true,
+//   secure: process.env.NODE_ENV === 'production',
+//   sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+// });
