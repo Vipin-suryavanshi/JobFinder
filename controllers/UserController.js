@@ -41,6 +41,7 @@ export const login = CatchAsyncError(async(req,res,next)=>{
    sendToken(user,200,res,"User Logged Successfully");
 });
 
+<<<<<<< HEAD
 export const logout = CatchAsyncError(async function(req, res, next) {
   res.clearCookie("token", {
     expires: new Date(0), 
@@ -54,6 +55,20 @@ export const logout = CatchAsyncError(async function(req, res, next) {
   });
 });
 
+=======
+export const logout = CatchAsyncError(async function(req,res,next){
+   res.status(200).cookie("token", "",{
+httpOnly: true,
+    expires: new Date(0), 
+    secure: true, 
+    sameSite: "None",
+    path: "/", 
+   }).json({
+    sucess:true,
+    message:"User Logged Out Succesfully",
+   })
+})
+>>>>>>> 9a3f0e631fa207447b45c02ca94df0f62d65ded1
 
 export const getUser = CatchAsyncError((req,res,next)=>{
   const user = req.user;
@@ -62,6 +77,7 @@ export const getUser = CatchAsyncError((req,res,next)=>{
     user
   })
 })
+<<<<<<< HEAD
 
 
 
@@ -97,3 +113,5 @@ export const getUser = CatchAsyncError((req,res,next)=>{
 //   secure: process.env.NODE_ENV === 'production',
 //   sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
 // });
+=======
+>>>>>>> 9a3f0e631fa207447b45c02ca94df0f62d65ded1
