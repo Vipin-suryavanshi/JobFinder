@@ -126,7 +126,7 @@ export const DeleteJobs = CatchAsyncError(async function(req,res,next){
     );
   }
    const {id} = req.params;
-   let job = await JobModel.findById(id);
+   const job = await JobModel.findById(id);
   if(!job){
     return next(
       new ErrorHandler(
@@ -135,14 +135,16 @@ export const DeleteJobs = CatchAsyncError(async function(req,res,next){
       )
     )
   }
- job.deleteOne();
+  await job.deleteOne();
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.status(200).json({
-    sucess:true,
+    success:true,
     message:"Job Deleted Sucessfully",
     job
   })
 })
-
 export const GetJobDetail = CatchAsyncError(async(req,res,next)=>{
   const {id} = req.params;
   try {
