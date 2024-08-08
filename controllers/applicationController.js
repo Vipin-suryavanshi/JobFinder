@@ -57,12 +57,14 @@ export const JobSeekerDeleteApplication = CatchAsyncError(async(req,res,next)=>{
         return next(new ErrorHandler("Oops applicantion not Found",404))
     }
     await DelApplication.deleteOne();
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.status(200).json({
-        sucess:true,
+        success:true,
         message:"Application Deleted Sucessfully",
     })
 })
-
 
 export const PostApplication = CatchAsyncError(async(req,res,next)=>{
     const {role} = req.user;
